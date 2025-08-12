@@ -5,12 +5,14 @@ class GERAETE(DATACONNECT):
     def __init__(self):
         super().__init__()
         self.verbindeDatenbank()
-        self.setZeitraum(7, 2025)
+        self.setZeitraum(8, 2025)
         self.get_C3()
         self.get_C3T()
         self.get_CPR()
         self.get_C1()
         self.get_AED()
+        self.get_Cosinuss()
+        self.get_Software()
         self.get_Servicescheine()
         self.get_C3_C1_Gebraucht()
         self.get_AED_Gebraucht()
@@ -19,8 +21,10 @@ class GERAETE(DATACONNECT):
         self.get_CPR_AU()
         self.get_C1_AU()
         self.get_AED_AU()
+        self.get_Cosinuss_AU()
         self.get_C3_AU()
         self.get_C3T_AU()
+        self.get_Software_AU()
         self.get_C3_C1_Gebraucht_AU()
         self.get_AED_Gebraucht_AU()
         self.getSummen()
@@ -52,14 +56,14 @@ class GERAETE(DATACONNECT):
 
     def get_CPR_AU(self):
         Artikel = ('09100',)
-        ausgeschlossen = ('04100',)
+        ausgeschlossen = ('04100','04101',)
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'AU'
         self.Summe_CPR_AU = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
 
     def get_C1_AU(self):
         Artikel = ('05100',)
-        ausgeschlossen = ('04100',)
+        ausgeschlossen = ('04100','04101',)
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'AU'
         self.Summe_C1_AU = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
@@ -67,14 +71,23 @@ class GERAETE(DATACONNECT):
     def get_AED_AU(self):
         artikel_liste = ('06100', "06100.10", "06100.11", "06100.20", "06100.21", 
                         "06101.10", "06101.11", "06101.20", "06101.21")
-        ausgeschlossen = ('04100',)
+        ausgeschlossen = ('04100','04101',)
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'AU'
         self.Summe_AED_AU = self.getData(artikel_liste, ausgeschlossen, Filiale, Belegart)
 
+    def get_Cosinuss_AU(self):
+        Artikel = ('15121.101L', '15121.101M', '15121.101S', '15122.101SM', '15123.101SM')
+        ausgeschlossen = ('04101', '04201', '04302', '06100', "06100.10", "06100.11", "06100.20", "06100.21", 
+                        "06101.10", "06101.11", "06101.20", "06101.21")
+        Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
+        Belegart = 'AU'
+        self.Summe_Cosinus_AU = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
+
     def get_C3_AU(self):
         Artikel = ('04100', '04200', '04301', '04300')
-        ausgeschlossen = ('04101', '04201', '04302', '06101.10')
+        ausgeschlossen = ('04101', '04201', '04302', '06100', "06100.10", "06100.11", "06100.20", "06100.21", 
+                        "06101.10", "06101.11", "06101.20", "06101.21")
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'AU'
         self.Summe_C3_AU = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
@@ -87,49 +100,68 @@ class GERAETE(DATACONNECT):
         Belegart = 'AU'
         self.Summe_C3T_AU = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
 
+    def get_Software_AU(self):
+        Belegart = 'AU'
+        self.Summe_Software_AU = self.get_Software_Data(Belegart)
+
 ############################################################################################
 ######## Neugeräte Sales ###########
 
     def get_CPR(self):
         Artikel = ('09100',)
-        ausgeschlossen = ('04100',)
+        ausgeschlossen = ('04100','04101',)
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'RE'
         self.Summe_CPR = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
 
     def get_C1(self):
         Artikel = ('05100',)
-        ausgeschlossen = ('04100',)
+        ausgeschlossen = ('04100','04101',)
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'RE'
         self.Summe_C1 = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
 
+    def get_Cosinuss(self):
+        Artikel = ('15121.101L', '15121.101M', '15121.101S', '15122.101SM', '15123.101SM')
+        ausgeschlossen = ('04101', '04201', '04302', '06100', "06100.10", "06100.11", "06100.20", "06100.21", 
+                        "06101.10", "06101.11", "06101.20", "06101.21")
+        Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
+        Belegart = 'RE'
+        self.Summe_Cosinus = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
+
     def get_AED(self):
         artikel_liste = ('06100', "06100.10", "06100.11", "06100.20", "06100.21", 
                         "06101.10", "06101.11", "06101.20", "06101.21")
-        ausgeschlossen = ('04100',)
+        ausgeschlossen = ('04100','04101',)
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'RE'
         self.Summe_AED = self.getData(artikel_liste, ausgeschlossen, Filiale, Belegart)
 
     def get_C3(self):
         Artikel = ('04100', '04200', '04301', '04300')
-        ausgeschlossen = ('04101', '04201', '04302', '06101.10')
+        ausgeschlossen = ('04101', '04201', '04302', '06100', "06100.10", "06100.11", "06100.20", "06100.21", 
+                        "06101.10", "06101.11", "06101.20", "06101.21")
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'RE'
         self.Summe_C3 = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
 
     def get_C3T(self):
         Artikel = ('04101', '04201', '04302',)
-        ausgeschlossen = ('04100', '04200', '04301', '04300')
+        ausgeschlossen = ('04100', '04200', '04301', '04300', '06100', "06100.10", "06100.11", "06100.20", "06100.21", 
+                        "06101.10", "06101.11", "06101.20", "06101.21")
         Filiale = '7'  # Beispiel für Filiale, kann angepasst werden
         Belegart = 'RE'
         self.Summe_C3T = self.getData(Artikel, ausgeschlossen, Filiale, Belegart)
+
 
     def set_Accessoires(self):
         ausgeschlossen = ('04100', '04200', '04300', '04301', '04101', '04201', '04302', '06100', "06100.10", "06100.11", "06100.20", "06100.21", 
                         "06101.10", "06101.11", "06101.20", "06101.21")
         self.Summe_Accessoires = self.get_Accessories(ausgeschlossen)
+    
+    def get_Software(self):
+        Belegart = 'RE'
+        self.Summe_Software = self.get_Software_Data(Belegart)
 
 ########################################################################################################
 ########## Gebrauchtgeräte ###########
@@ -163,6 +195,8 @@ class GERAETE(DATACONNECT):
         Filiale = '8'  
         Belegart = 'AU'
         self.Summe_AED_Gebraucht_AU = self.getData(artikel_liste, ausgeschlossen, Filiale, Belegart)
+
+
 
 ########################################################################################################
 ########## Datenlogic ###########
@@ -329,7 +363,42 @@ class GERAETE(DATACONNECT):
         finally:
             if cursor:
                 cursor.close()
-        
+
+    def get_Software_Data(self, Beleg):
+        cursor = None
+        liste_software = []
+
+        try:
+            cursor = self.conn.cursor()
+
+            sql = f"""
+                SELECT BELEGNR, GESAMT             
+                FROM BELEGPOS      
+                WHERE CREATEDATUM >= '{self.DatumVon}'
+                AND CREATEDATUM <  '{self.DatumBis}'
+                AND BELEGART = '{Beleg}'
+                AND FILIALE = '0'
+                AND ARTIKELNR LIKE '970%'
+            """
+
+            cursor.execute(sql)
+            servicescheine = cursor.fetchall()
+
+            
+            for eintrag in servicescheine:
+                wert = str(eintrag[1])
+                print(f"Schein: {eintrag[0]}, Wert: {wert}")
+                liste_software.append(wert)
+            gesamt = sum(float(x) for x in liste_software if isinstance(x, str) and x.replace('.', '', 1).isdigit())
+            print(gesamt)
+            return gesamt
+
+        except Exception as e:
+            print(f"Fehler beim Abrufen der Software: {e}")
+
+        finally:
+            if cursor:
+                cursor.close()
     
     def getSummen (self):
         print(50*"#")
@@ -340,10 +409,10 @@ class GERAETE(DATACONNECT):
         print("C1:", self.Summe_C1_AU)
         print("C3:", self.Summe_C3_AU)
         print("C3T:", self.Summe_C3T_AU)
-        print("cosinuss sensor")
-        print("Accessories")
-        print("Service")
-        print("Software")
+        print("cosinuss sensor:", self.Summe_Cosinus_AU)
+        print("Accessories:")
+        print("Service:")
+        print("Software:", self.Summe_Software_AU)
         print("RF AED:", self.Summe_AED_Gebraucht_AU)
         print("RF c3/c1:", self.Summe_C3_C1_refurbed_AU)
         print()
@@ -356,9 +425,10 @@ class GERAETE(DATACONNECT):
         print("C1:", self.Summe_C1)
         print("C3:", self.Summe_C3)
         print("C3T:", self.Summe_C3T)
-        print("cosinuss sensor")
+        print("cosinuss sensor:", self.Summe_Cosinus)
         print("Accessories")
         print("Servicescheine:", self.get_Servicescheine())
+        print("Software:", self.Summe_Software)
         print("RF AED:", self.Summe_AED_Gebraucht)
         print("RF c3/c1:", self.Summe_C3_C1_refurbed)
         
